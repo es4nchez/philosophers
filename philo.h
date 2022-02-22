@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esanchez <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: marlene <marlene@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 15:04:09 by esanchez          #+#    #+#             */
-/*   Updated: 2021/12/09 15:04:12 by esanchez         ###   ########.fr       */
+/*   Updated: 2022/02/05 17:44:01 by marlene          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <sys/time.h>
+# include <pthread.h>
+# include <string.h>
 
 typedef struct	s_data {
-	int	philers;
-	int	ttd;
-	int	tte;
-	int	tts;
+	size_t		start_time;
+	int			philers;
+	int			ttd;
+	int			tte;
+	int			tts;
+	pthread_t	*thid;
 
 }				t_data;
 
@@ -36,6 +40,9 @@ typedef struct	s_time {
 }				t_time;
 */
 
-int	ft_atoi(const char *nptr);
+int		ft_atoi(const char *nptr);
+size_t	time_stamp(void);
+void    data_init(t_data *data, char **argv);
+size_t  time_since_start(t_data *data, int write);
 
 #endif
