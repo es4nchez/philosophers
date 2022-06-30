@@ -1,28 +1,28 @@
-SRC	=	ft_atoi.c ft_itoa.c init.c main.c states.c time.c live_like_a_philo.c errors.c end.c
+SRC	=	src/ft_atoi.c src/ft_itoa.c src/init.c src/main.c src/states.c src/time.c src/live_like_a_philo.c src/errors.c src/end.c
 
 OBJ	=	$(SRC:.c=.o)
 
 NAME	=	philo
 
 RM	=	rm -f
-CC	=	gcc
-CFLAGS	=	-Wall -Werror -Wextra -fsanitize=address -g
+CC	=	clang
+CFLAGS	=	-Wall -Werror -Wextra -pthread
 
-.c.o:         
-	@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+.c.o:
+	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 $(NAME)	:	$(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -g -o $(NAME)
-													
+	$(CC) $(CFLAGS) $(OBJ) -g -o $(NAME)
+
 all	:	$(NAME)
 
-								
-clean	:	
-	@$(RM) $(OBJ)
-											
+
+clean	:
+	$(RM) $(OBJ)
+
 fclean	:	clean
-	@$(RM) $(NAME)
-														
+	$(RM) $(NAME)
+
 re	:	fclean all
-												
+
 .PHONY	:	all clean fclean re
