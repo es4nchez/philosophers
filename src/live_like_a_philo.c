@@ -14,27 +14,27 @@
 
 int	philo_eat(t_data *data, t_phinfo *info)
 {
-
-	while (data->dead == 0)
+	if (data->eating[info->next_fork + 1] == 0)
 	{
-		printf("%d checking fork %d and %d\n", info->nb, info->nb - 1, info->next_fork);
-		if (pthread_mutex_unlock(&data->forks[info->nb - 1]) == 0 && pthread_mutex_unlock(&data->forks[info->next_fork]) == 0)
-		{
-			pthread_mutex_lock(&data->forks[info->nb - 1]);
-			pthread_mutex_lock(&data->forks[info->next_fork]);
-			printf("%lu %d has taken a fork\n", info->last_meal, info->nb);
-			printf("%lu %d has taken a fork\n", info->last_meal, info->nb - 1);
-			printf("%lu %d is eating\n", info->last_meal, info->nb);
-			info->last_meal = time_stamp(data->start_time, 0);
-			usleep(1000000);
-			pthread_mutex_unlock(&data->forks[info->nb - 1]);
-			pthread_mutex_unlock(&data->forks[info->next_fork]);
-			continue ;
-		}
-	//	else
-		//	usleep(1);
+		data->eating[info->nb] = 1;
+		pthread_mutex_lock(&data->forks[info->nb - 1]);
+		pthread_mutex_lock(&data->forks[info->next_fork]);
+		printf("%lu %d has taken a fork\n", time_stamp(data->start_time, 0), info->nb);
+		printf("%lu %d has taken a fork\n", time_stamp(data->start_time, 0), info->nb);
+		printf(YE"%lu %d is eating\n"DF, time_stamp(data->start_time, 0), info->nb);
+		info->last_meal = time_stamp(data->start_time, 0);
+		if (ft_sleep(data, data->tte, info->nb, info->last_meal) == 0)
+			return (0);
+		pthread_mutex_unlock(&data->forks[info->nb - 1]);
+		pthread_mutex_unlock(&data->forks[info->next_fork]);
+		data->eating[info->nb] = 0;
 	}
-	ft_sleep(data, data->tts, info->nb);
-	printf("%lu %d is sleeping\n", time_stamp(data->start_time, 0), info->nb);
+	else
+	{
+		if (data->dead == 1)
+			return (1);
+		printf(BL"%lu %d is sleeping\n"DF, time_stamp(data->start_time, 0), info->nb);
+		ft_sleep(data, data->tts, info->nb, info->last_meal);
+	}
 	return (0);
 }

@@ -15,24 +15,18 @@
 int	main(int argc, char **argv)
 {
 	t_data		data;
-//	int			i;
 
-//	i = 0;
-//	setvbuf(stdout, NULL, _IONBF, 0);
 	if (input_errors(argc, argv) == 0)
 		return (1);
 	data_init(&data, argc, argv);
-//	data.tpid = (pthread_t *)malloc(sizeof(pthread_t) * data.philers);
 	printf(BEGIN1""BEGIN2);
 	while (data.i <= data.philers)
 	{
-		write(1, "One phil is born\n", 17);
 		pthread_create(&data.tpid[data.i - 1],
 			NULL, philo_create, (void *)&data);
 		data.i++;
 	}
-	sleep(1);
-//	free(data.tpid);
+	exit (0);
 	end_sim(&data);
 	return (0);
 }

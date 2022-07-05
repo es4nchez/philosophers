@@ -19,10 +19,9 @@ void	end_sim(t_data *data)
 	i = 0;
 	while (i < data->philers)
 	{
-//		pthread_detach(data->tpid[i]);
 		pthread_mutex_destroy(&(data->forks[i]));
 		pthread_join(data->tpid[i], NULL);
 		i++;
 	}
-	return  ;
+	return ;
 }

@@ -16,11 +16,9 @@ void	phinfo_init(t_data *data, t_phinfo *info)
 {
 	info->dead = 0;
 	info->eat_nb = 0;
-	info->is_eating = 0;
 	info->ttd = data->ttd;
 	info->start_time = data->start_time;
-	info->next_fork = (info->nb) % data->philers;
-	printf(" %d\n", info->next_fork);
+	info->next_fork = info->nb % data->philers;
 	return ;
 }
 
@@ -37,16 +35,14 @@ void	*philo_create(void *data_t)
 	phinfo_init(data, &info);
 	if (data->philers == 1)
 	{
-		printf(RED"%lu %d died\n"DEF, data->ttd, info.nb);
+		printf(RE"%lu %d died\n"DF, data->ttd, info.nb);
 		return (NULL);
 	}
-	while ((data->dead) == 0)
+	while (data->dead != 1)
 	{
 		if (philo_eat(data, &info) == 1)
 			return (NULL);
-		if (data->dead == 1)
-			return (NULL);
-
+		write(1, "test\n", 5);
 	}
 	return (NULL);
 }

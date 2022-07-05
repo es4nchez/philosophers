@@ -22,12 +22,12 @@
 # include <pthread.h>
 # include <string.h>
 
-# define DEF "\e[39m"
-# define RED "\e[31m"
-# define CYAN "\e[36m"
-# define GREEN "\e[32m"
-# define YELLOW "\e[33m"
-# define BLUE "\e[34m"
+# define DF "\e[39m"
+# define RE "\e[31m"
+# define CY "\e[36m"
+# define GR "\e[32m"
+# define YE "\e[33m"
+# define BL "\e[34m"
 # define BEGIN1 "\n----------------------------\n|  Beginning of simulation |\n"
 # define BEGIN2 "----------------------------\n\n"
 # define END1 "----------------------------\n|     End of simulation    |\n"
@@ -35,7 +35,6 @@
 
 typedef struct s_phinfo {
 	int		nb;
-	int		is_eating;
 	int		eat_nb;
 	int		dead;
 	unsigned long	last_meal;
@@ -55,6 +54,7 @@ typedef struct s_data {
 	int		tts;
 	int		eat_nb;
 	int		i;
+	int		eating[250];
 	pthread_t	tpid[250];
 	t_phinfo	phil[250];
 	pthread_mutex_t	forks[250];
@@ -65,7 +65,7 @@ int		ft_atoi(const char *nptr);
 char		*ft_itoa(int n);
 int		input_errors(int argc, char **argv);
 size_t		time_stamp(size_t start_time, int write);
-int		ft_sleep(t_data *data, int wait_time, int phil);
+int		ft_sleep(t_data *data, int wait_time, int nb, size_t last_meal);
 void		data_init(t_data *data, int argc, char **argv);
 void		philo_init(t_data *data);
 void		*philo_create(void *data_t);

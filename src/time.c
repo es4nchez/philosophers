@@ -12,23 +12,26 @@
 
 #include "../inc/philo.h"
 
-int	ft_sleep(t_data *data, int wait_time, int phil)
+int	ft_sleep(t_data *data, int wait_time, int nb, size_t last_meal)
 {
 	size_t	begin;
 	size_t	end;
 
-	begin = time_now();
-	end = time_now();
+	begin = time_stamp(data->start_time, 0);
+	end = time_stamp(data->start_time, 0);
 	while ((end - begin) <= (size_t)wait_time && (end - begin) >= 0)
 	{
-		end = time_now();
-		if (end - begin > (size_t)data->ttd)
+		end = time_stamp(data->start_time, 0);
+		if (end - last_meal >= (size_t)data->ttd)
 		{
-			printf(RED"%lu %d died\n"DEF,
-				time_stamp(data->start_time, 0), phil);
+			printf(RE"%lu %d died\n"DF,
+				time_stamp(data->start_time, 0), nb);
 			data->dead = 1;
+			end_sim(data);
 			return (0);
 		}
+		if (data->dead == 1)
+			return (0);
 		usleep(1);
 	}
 	return (1);
