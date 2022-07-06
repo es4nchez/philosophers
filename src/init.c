@@ -12,37 +12,43 @@
 
 #include "../inc/philo.h"
 
-void	phinfo_init(t_data *data, t_phinfo *info)
+void	phinfo_init(t_data *data)
 {
-	info->dead = 0;
-	info->eat_nb = 0;
-	info->ttd = data->ttd;
-	info->start_time = data->start_time;
-	info->next_fork = info->nb % data->philers;
+	int	i;
+
+	i = 0;
+	while (i < data->philers)
+	{
+		data->phil[i].eat_nb = 0;
+		data->phil[i].start_time = data->start_time;
+		data->phil[i].next_fork = (i + 1) % data->philers;
+		data->phil[i].last_meal = time_stamp(data->start_time, 0);
+		i++;
+	}
 	return ;
 }
 
 void	*philo_create(void *data_t)
 {
 	t_data		*data;
-	t_phinfo	info;
 	static int	i = 0;
+	t_phinfo	*info;
 
 	data = (t_data *)data_t;
+	pthread_mutex_lock(&data->lock);
+	info = &data->phil[i];
+	info->nb = i;
 	i++;
-	info.nb = i;
-	info.last_meal = time_stamp(data->start_time, 0);
-	phinfo_init(data, &info);
+	pthread_mutex_unlock(&data->lock);
 	if (data->philers == 1)
 	{
-		printf(RE"%lu %d died\n"DF, data->ttd, info.nb);
+		printf(RE"%lu %d died\n"DF, data->ttd, info->nb);
 		return (NULL);
 	}
 	while (data->dead != 1)
 	{
-		if (philo_eat(data, &info) == 1)
+		if (philo_eat(data, info) == 1)
 			return (NULL);
-		write(1, "test\n", 5);
 	}
 	return (NULL);
 }
@@ -53,10 +59,8 @@ void	mutex_init(t_data *data)
 
 	i = data->philers;
 	while (--i >= 0)
-	{
 		pthread_mutex_init(&(data->forks[i]), NULL);
-		pthread_mutex_unlock(&data->forks[i]);
-	}
+	pthread_mutex_init(&data->lock, NULL);
 }
 
 void	data_init(t_data *data, int argc, char **argv)

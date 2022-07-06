@@ -17,6 +17,7 @@ int	ft_sleep(t_data *data, int wait_time, int nb, size_t last_meal)
 	size_t	begin;
 	size_t	end;
 
+	(void )nb;
 	begin = time_stamp(data->start_time, 0);
 	end = time_stamp(data->start_time, 0);
 	while ((end - begin) <= (size_t)wait_time && (end - begin) >= 0)
@@ -24,15 +25,12 @@ int	ft_sleep(t_data *data, int wait_time, int nb, size_t last_meal)
 		end = time_stamp(data->start_time, 0);
 		if (end - last_meal >= (size_t)data->ttd)
 		{
-			printf(RE"%lu %d died\n"DF,
-				time_stamp(data->start_time, 0), nb);
 			data->dead = 1;
-			end_sim(data);
 			return (0);
 		}
 		if (data->dead == 1)
 			return (0);
-		usleep(1);
+		usleep(100);
 	}
 	return (1);
 }

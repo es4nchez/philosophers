@@ -15,18 +15,21 @@
 int	main(int argc, char **argv)
 {
 	t_data		data;
+	pthread_t	checker_pid;
 
 	if (input_errors(argc, argv) == 0)
 		return (1);
 	data_init(&data, argc, argv);
 	printf(BEGIN1""BEGIN2);
+	phinfo_init(&data);
+	pthread_create(&checker_pid, NULL, checker, &data);
 	while (data.i <= data.philers)
 	{
 		pthread_create(&data.tpid[data.i - 1],
 			NULL, philo_create, (void *)&data);
 		data.i++;
+		usleep(1000);
 	}
-	exit (0);
 	end_sim(&data);
 	return (0);
 }
