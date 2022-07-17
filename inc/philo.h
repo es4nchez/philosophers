@@ -34,44 +34,44 @@
 # define END2 "----------------------------\n\n"
 
 typedef struct s_phinfo {
-	int		nb;
-	int		eat_nb;
+	int				nb;
+	int				eat_nb;
 	unsigned long	last_meal;
-	int		next_fork;
-	size_t		start_time;
+	int				next_fork;
+	size_t			start_time;
 
 }				t_phinfo;
 
 typedef struct s_data {
-	int		argc;
-	int		dead;
-	size_t		start_time;
-	int		philers;
+	int				argc;
+	int				dead;
+	size_t			start_time;
+	int				philers;
 	unsigned long	ttd;
-	int		tte;
-	int		tts;
-	int		eat_nb;
-	int		i;
-	int		eating[200];
-	pthread_t	tpid[200];
-	t_phinfo	phil[200];
+	int				tte;
+	int				tts;
+	int				eat_nb;
+	int				i;
+	int				eating[200];
+	pthread_t		tpid[200];
+	t_phinfo		phil[200];
 	pthread_mutex_t	forks[200];
 	pthread_mutex_t	lock;
 
 }				t_data;
 
 int		ft_atoi(const char *nptr);
-char		*ft_itoa(int n);
+char	*ft_itoa(int n);
 int		input_errors(int argc, char **argv);
-size_t		time_stamp(size_t start_time, int write);
+size_t	time_stamp(size_t start_time, int write);
 int		ft_sleep(t_data *data, int wait_time, int nb, size_t last_meal);
-void		data_init(t_data *data, int argc, char **argv);
-void		phinfo_init(t_data *data);
-void		*philo_create(void *data_t);
+void	data_init(t_data *data, int argc, char **argv);
+void	phinfo_init(t_data *data);
+void	*philo_create(void *data_t);
 int		philo_sleep(t_data *data, t_phinfo info);
 int		philo_eat(t_data *data, t_phinfo *info);
-size_t		time_now(void);
-void		end_sim(t_data *data);
-void		*checker(void *data_t);
+size_t	time_now(void);
+void	end_sim(t_data *data);
+void	*checker(void *data_t);
 
 #endif
